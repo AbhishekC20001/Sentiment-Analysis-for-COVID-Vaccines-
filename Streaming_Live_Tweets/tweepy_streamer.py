@@ -4,7 +4,9 @@ from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
 
+
 import tweepy
+
 
 import twitter_credentials
 import numpy as np
@@ -44,7 +46,6 @@ class TwitterStreamer():
 
         stream.filter(track=hash_tag_list)
 
-
 class TweetAnalyzer():
 
     def tweets_to_data_frame(self, tweets):
@@ -61,7 +62,6 @@ class TweetAnalyzer():
         df['retweets'] = np.array([tweet.retweet_count for tweet in tweets])
 
         return df
-
 
 if __name__ == '__main__':
 
