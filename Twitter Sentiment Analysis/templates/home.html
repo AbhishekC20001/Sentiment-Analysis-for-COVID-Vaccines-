@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Sentiment Analysis</title>
+    <style>
+
+        .container {
+          max-width: 700px;
+          margin: auto;
+
+
+        }
+        .bg{
+          background-color: #fff000;
+          background-image: linear-gradient(315deg, #fff000 0%, #ed008c 74%);
+        }
+        table, th, td {
+          border: 1px solid black;
+          padding: 10px;
+        }
+        table.center {
+          margin-left: auto;
+          margin-right: auto;
+        }
+    </style>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+			{% for key, value in data.items() %}
+				{% if value is string %}
+					['{{ key }}', '{{ value }}'],
+				{% else %}
+					['{{ key }}', {{ value }}],
+				{% endif %}
+			{% endfor %}
+        ]);
+
+        var options = {
+          title: 'Analysis Report',
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
+</head>
+<body class="bg">
+    <div class="container">
+        <h1 style="text-align: center;color: green;"><u>Sentiment Analysis For Covid Vaccines</u></h1>
+        <form action="/" method="POST" id="myform">
+
+
+            <h2 style="text-align: center;"><input type="submit" style="width: 60px;height: 30px;" value="Analyse"></h2>
+        </form>
+        <table style="width:100%">
+  <tr>
+    <th>Positive Tweets</th>
+    <th>Negative Tweets</th>
+    <th>Neutral Tweets</th>
+  </tr>
+  <tr>
+    <td>{{positive}}</td>
+    <td>{{negative}}</td>
+    <td>{{neutral}}</td>
+  </tr>
+
+</table>
+
+<div style="margin: 10px 0 0 10px;width: 1000px">
+<h4>Pie Chart</h4>
+
+<div id="piechart_3d" style="width: 600px; height: 500px;"></div>
+</div>
+
+
+        {% if time %}
+        <h4 style="color: red; text-align: center;">** Last Update on {{time}}</h4>
+        {% endif %}
+
+    </div>
+</body>
+</html>
